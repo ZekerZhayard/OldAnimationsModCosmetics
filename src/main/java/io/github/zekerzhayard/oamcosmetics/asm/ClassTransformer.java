@@ -52,8 +52,10 @@ public class ClassTransformer implements IClassTransformer {
                     for (int i = 0; i < ains.length; i++) {
                         if (ains[i] instanceof LdcInsnNode && ains[i - 1] instanceof FieldInsnNode && ains[i + 1] instanceof MethodInsnNode && ((MethodInsnNode) ains[i + 1]).name.equals("equalsIgnoreCase")) {
                             String data = (String) ((LdcInsnNode) ains[i]).cst;
-                            System.out.println("Found the data: " + data);
-                            dataList.add(data);
+                            if (!dataList.contains(data)) {
+                                System.out.println("Found the data: " + data);
+                                dataList.add(data);
+                            }
                         }
                     }
                 }
