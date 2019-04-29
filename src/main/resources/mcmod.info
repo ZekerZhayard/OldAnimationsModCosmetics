@@ -1,0 +1,16 @@
+[
+{
+  "modid": "oldanimationsmodcosmetics",
+  "name": "OldAnimationsModCosmetics",
+  "description": "Unlock cosmetics by self in OldAnimationsMod.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["ZekerZhayard"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
