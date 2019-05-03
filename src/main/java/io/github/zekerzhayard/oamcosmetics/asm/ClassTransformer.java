@@ -85,6 +85,40 @@ public class ClassTransformer implements IClassTransformer {
             return cw.toByteArray();
         }
         
+        if (className.equals("com.spiderfrog.oldanimations.gui.OtherAnimations")) {
+            System.out.println("Found the class: " + className);
+            ClassNode cn = new ClassNode();
+            new ClassReader(basicClass).accept(cn, ClassReader.EXPAND_FRAMES);
+            for (MethodNode mn : cn.methods) {
+                if (mn.name.equals("func_73866_w_") && mn.desc.equals("()V")) {
+                    System.out.println("Found the method: " + mn.name + mn.desc);
+                    AbstractInsnNode[] ains = mn.instructions.toArray();
+                    boolean isCosmetics = false;
+                    for (int i = 0; i < ains.length; i++) {
+                        if (ains[i] instanceof FieldInsnNode && ((FieldInsnNode) ains[i]).name.equals("cosmetics")) {
+                            isCosmetics = true;
+                        } else if (ains[i] instanceof MethodInsnNode && ((MethodInsnNode) ains[i]).owner.equals("net/minecraft/client/gui/GuiButton") && isCosmetics) {
+                            isCosmetics = false;
+                            System.out.println("Found the node: " + ains[i].getOpcode() + " " + ains[i].getType());
+                            mn.instructions.insertBefore(ains[i], new MethodInsnNode(Opcodes.INVOKESTATIC, "io/github/zekerzhayard/oamcosmetics/asm/ByteCodeHook", "getCosmeticsSettingString", "(Ljava/lang/String;)Ljava/lang/String;", false));
+                        }
+                    }
+                } else if (mn.name.equals("func_146284_a") && mn.desc.equals("(Lnet/minecraft/client/gui/GuiButton;)V")) {
+                    System.out.println("Found the method: " + mn.name + mn.desc);
+                    AbstractInsnNode[] ains = mn.instructions.toArray();
+                    for (int i = 0; i < ains.length; i++) {
+                        if (ains[i] instanceof FieldInsnNode && ((FieldInsnNode) ains[i]).getOpcode() == Opcodes.PUTSTATIC && ((FieldInsnNode) ains[i]).name.equals("cosmetics")) {
+                            System.out.println("Found the node: " + ains[i].getOpcode() + " " + ains[i].getType());
+                            mn.instructions.insert(ains[i], new MethodInsnNode(Opcodes.INVOKESTATIC, "io/github/zekerzhayard/oamcosmetics/asm/ByteCodeHook", "setShowOthersCosmetics", "()V", false));
+                        }
+                    }
+                }
+            }
+            ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+            cn.accept(cw);
+            return cw.toByteArray();
+        }
+        
         return basicClass;
     }
 }
