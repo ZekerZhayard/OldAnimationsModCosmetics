@@ -6,7 +6,7 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
 import io.github.zekerzhayard.oamcosmetics.commands.CommandOAMCosmetics;
-import io.github.zekerzhayard.oamcosmetics.config.Configs;
+import io.github.zekerzhayard.oamcosmetics.config.ConfigLoaderOAM;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.fml.common.DummyModContainer;
 import net.minecraftforge.fml.common.LoadController;
@@ -37,11 +37,12 @@ public class OAMCosmetics extends DummyModContainer {
     
     @Subscribe()
     public void preInit(FMLPreInitializationEvent event) {
-        Configs.init();
+        ConfigLoaderOAM.init();
     }
     
     @Subscribe()
     public void init(FMLInitializationEvent event) {
         ClientCommandHandler.instance.registerCommand(new CommandOAMCosmetics());
+        UpdateChecker.startCheckUpdate();
     }
 }

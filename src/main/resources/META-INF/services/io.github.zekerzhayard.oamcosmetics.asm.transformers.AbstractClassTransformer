@@ -1,0 +1,4 @@
+io.github.zekerzhayard.oamcosmetics.asm.transformers.CosmeticManagerClassTransformer
+io.github.zekerzhayard.oamcosmetics.asm.transformers.CosmeticsClassTransformer
+io.github.zekerzhayard.oamcosmetics.asm.transformers.CosmeticRendererClassTransformer
+io.github.zekerzhayard.oamcosmetics.asm.transformers.OtherAnimationsTransformer
